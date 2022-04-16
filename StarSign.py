@@ -16,7 +16,7 @@ pygame.display.set_caption('OpenGL in Python')
 def init_ortho():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluOrtho2D(0, 640, 0, 480)
+    gluOrtho2D(0, 1000, 0, 800)
 
 
 def draw_star(x, y, size):
