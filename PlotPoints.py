@@ -1,3 +1,6 @@
+import math
+import numpy as np
+
 import pygame
 from pygame.locals import *
 from OpenGL.GL import *
@@ -16,12 +19,16 @@ pygame.display.set_caption('Graphs in PyOpenGL')
 def init_ortho():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluOrtho2D(-500, 500, -400, 400)
+    gluOrtho2D(0, 4, -1, 1)
 
 
 def plot_graph():
     glBegin(GL_POINTS)
-    glVertex2f(0, 0)
+    px: GL_DOUBLE
+    py: GL_DOUBLE
+    for px in np.arange(0, 4, 0.005):
+        py = math.exp(-px) * math.cos(2 * math.pi * px)
+        glVertex2f(px, py)
     glEnd()
 
 
