@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from Utils import *
 
 pygame.init()
 
@@ -15,7 +16,7 @@ pygame.display.set_caption('Graphs in PyOpenGL')
 def init_ortho():
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
-    gluOrtho2D(0, 1000, 800, 0)
+    gluOrtho2D(0, 640, 0, 480)
 
 
 def plot_point():
@@ -35,7 +36,9 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == MOUSEBUTTONDOWN:
-            points.append(pygame.mouse.get_pos())
+            p = pygame.mouse.get_pos()
+            points.append((map_value(0, screen_width, 0, 640, p[0]),
+                           ))   # todo: Complete the points.append() line to include the value for y. Video 303.
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glMatrixMode(GL_MODELVIEW)
