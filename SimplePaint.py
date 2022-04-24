@@ -9,14 +9,12 @@ import numpy as np
 
 pygame.init()
 
-screen_width = 1000
+screen_width = 800
 screen_height = 800
-ortho_top = 1
-ortho_bottom = -1
-ortho_left = 0
-ortho_right = 4
-ortho_width = 640
-ortho_height = 480
+ortho_top = -400
+ortho_bottom = 400
+ortho_left = -400
+ortho_right = 400
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('Lines in PyOpenGL')
@@ -53,6 +51,17 @@ def plot_lines():
         glEnd()
 
 
+def save_drawing():
+    f = open("drawing.txt", "w")
+    f.write(str(len(points)) + "\n")
+    for l in points:
+        f.write(str(len(l)) + "\n")
+        for coords in l:
+            f.write(str(coords[0]) + " " + str(coords[1]) + "\n")
+    f.close()
+    print("Drawing saved.")
+
+
 done = False
 init_ortho()
 glPointSize(5)
@@ -63,8 +72,13 @@ mouse_down = False
 while not done:
     p = None
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                done = True
             done = True
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_s:
+                save_drawing()
         elif event.type == MOUSEBUTTONDOWN:
             mouse_down = True
             line = []
@@ -77,13 +91,13 @@ while not done:
             koordinatensysteme von pygame (0,0 = top left) und opengl (0,0 = bottom left) 
             unterschiedliche ursprünge haben.'''
             line.append((map_value(0, screen_width, ortho_left, ortho_right, p[0]),
-                           map_value(0, screen_height, ortho_bottom, ortho_top, p[1])))
+                           map_value(0, screen_height, ortho_top, ortho_bottom, p[1])))
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    plot_graph()
+    plot_lines()
     pygame.display.flip()
-    pygame.time.wait(500)
+    pygame.time.wait(2)
 
 pygame.quit()
