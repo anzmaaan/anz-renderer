@@ -17,7 +17,7 @@ ortho_left = -400
 ortho_right = 400
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
-pygame.display.set_caption('Lines in PyOpenGL')
+pygame.display.set_caption('Creating, saving and loading drawings in PyOpenGL')
 
 
 def init_ortho():
@@ -62,6 +62,23 @@ def save_drawing():
     print("Drawing saved.")
 
 
+def load_drawing():
+    f = open("drawing.txt", "r")
+    num_of_lines = int(f.readline())
+    global points
+    global line
+    points = []
+    for l in range(num_of_lines):
+        line = []
+        points.append(line)
+        num_of_coords = int(f.readline())
+        for coord_number in range(num_of_coords):
+            px, py = [float(value) for value in next(f).split()]
+            line.append((px, py))
+            print(str(px) + "," + str(py))
+    print("Drawing loaded.")
+
+
 done = False
 init_ortho()
 glPointSize(5)
@@ -72,13 +89,18 @@ mouse_down = False
 while not done:
     p = None
     for event in pygame.event.get():
-        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q:
-                done = True
+        if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_s:
+            if event.key == pygame.K_q:
+                done = True
+            elif event.key == pygame.K_s:
                 save_drawing()
+            elif event.key == pygame.K_l:
+                load_drawing()
+            elif event.key == pygame.K_SPACE:
+                points = []
+                print("Canvas cleared.")
         elif event.type == MOUSEBUTTONDOWN:
             mouse_down = True
             line = []
