@@ -1,6 +1,7 @@
 import math
 import numpy as np
 
+
 # remaps the value of cursor position from pygame to opengl resolutions
 def map_value(current_min, current_max, new_min, new_max, value):
     current_range = current_max - current_min
