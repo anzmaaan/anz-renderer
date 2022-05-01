@@ -4,6 +4,8 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 from Utils import *
 
+import numpy as np
+
 pygame.init()
 
 screen_width = 800
@@ -25,16 +27,18 @@ def init_ortho():
 
 def plot_polygon():
     glColor(1, 1, 1)
-    glBegin(GL_POLYGON)
+    glBegin(GL_TRIANGLES)
     for p in points:
         glVertex2f(p[0], p[1])
     glEnd()
     glColor(1, 0, 0)
     glLineWidth(5)
-    glBegin(GL_LINE_LOOP)
-    for p in points:
-        glVertex2f(p[0], p[1])
-    glEnd()
+    for i in np.arange(0, len(points) - 2, 3):
+        glBegin(GL_LINE_LOOP)
+        glVertex2f(points[i][0], points[i][1])
+        glVertex2f(points[i+1][0], points[i+1][1])
+        glVertex2f(points[i+2][0], points[i+2][1])
+        glEnd()
 
 
 done = False
