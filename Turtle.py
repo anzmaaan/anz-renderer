@@ -11,8 +11,8 @@ screen_width = 800
 screen_height = 800
 ortho_left = -400
 ortho_right = 400
-ortho_top = -400
-ortho_bottom = 400
+ortho_top = 0
+ortho_bottom = 800
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('Turtle Graphics')
@@ -22,12 +22,14 @@ direction = np.array([0, 1, 0])
 
 axiom = 'F'
 rules = {
-    "F": "F[+F]F"
+    "F": "FF[+F][--FF][-F+F]"
+    #"F": "FF",
+    #"X": "F+[-F-XF-X][+FF][--XF[+X]][++F-X]"
 }
-draw_length = 10
-angle = 90
+draw_length = 8
+angle = 25
 stack = []
-rule_run_number = 1
+rule_run_number = 5
 instructions = ""
 
 
@@ -61,9 +63,9 @@ def line_to(x, y):
     glEnd()
 
 
-def move_to(x, y):
+def move_to(pos):
     global current_position
-    current_position = (x, y)
+    current_position = (pos[0], pos[1])
 
 
 def reset_turtle():
@@ -74,9 +76,20 @@ def reset_turtle():
 
 
 def draw_turtle():
-    for i in range(100):
-        forward(200)
-        rotate(100)
+    global direction
+    for c in range(0, len(instructions)):
+        if instructions[c] == 'F':
+            forward(draw_length)
+        elif instructions[c] == '+':
+            rotate(angle)
+        elif instructions[c] == '-':
+            rotate(-angle)
+        elif instructions[c] == '[':
+            stack.append((current_position, direction))
+        elif instructions[c] == ']':
+            current_vector = stack.pop()
+            move_to(current_vector[0])
+            direction = current_vector[1]
 
 
 def forward(draw_length):
