@@ -2,7 +2,8 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from Mesh import *
+from Cube import *
+from LoadMesh import *
 
 pygame.init()
 
@@ -14,7 +15,8 @@ drawing_color = (1, 1, 1, 1)
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('OpenGL in Python')
-mesh = Mesh()
+cube = Cube(GL_LINE_LOOP)
+mesh = LoadMesh('Suzanne.obj', GL_LINE_LOOP)
 
 
 def initialise():
@@ -32,7 +34,7 @@ def initialise():
     glLoadIdentity()
     glViewport(0, 0, screen.get_width(), screen.get_height())
     glEnable(GL_DEPTH_TEST)
-    glTranslate(0, 0, -2)
+    glTranslate(0, 0, -4)
 
 
 def display():
