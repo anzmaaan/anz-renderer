@@ -1,6 +1,7 @@
 from OpenGL.GL import *
 import pygame
 
+
 class Mesh:
     def __init__(self):
         self.vertices = [(0.5, -0.5, 0.5),
