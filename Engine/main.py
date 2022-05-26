@@ -5,7 +5,12 @@ from OpenGL.GLU import *
 from Cube import *
 from LoadMesh import *
 from Camera import *
+import os
 
+
+x = 200
+y = 200
+os.environ['SDL_VIDEO_WINDOW_POS'] = f"{x},{y}"
 pygame.init()
 
 # project settings
