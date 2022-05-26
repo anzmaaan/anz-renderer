@@ -85,8 +85,14 @@ def draw_world_axes():
 def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     camera_init()
-    mesh.draw()
     draw_world_axes()
+    glPushMatrix()
+    glTranslated(0, 1, 0)
+    mesh.draw()
+    glPopMatrix()
+    glTranslatef(0.5, 1.5, 0.5)
+    mesh.draw()
+
 
 done = False
 initialise()
