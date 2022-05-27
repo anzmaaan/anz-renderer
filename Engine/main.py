@@ -7,7 +7,6 @@ from LoadMesh import *
 from Camera import *
 import os
 
-
 x = 200
 y = 200
 os.environ['SDL_VIDEO_WINDOW_POS'] = f"{x},{y}"
@@ -22,7 +21,7 @@ drawing_color = (1, 1, 1, 1)
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('Gilfoyle-Carmack Engine - OpenGL in Python')
 cube = Cube(GL_LINE_LOOP)
-mesh = LoadMesh('Cube_Maya.obj', GL_LINE_LOOP)
+mesh = LoadMesh('teapot.obj', GL_LINE_LOOP)
 camera = Camera()
 
 
@@ -86,12 +85,10 @@ def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     camera_init()
     draw_world_axes()
-    glPushMatrix()
-    glTranslated(0, 1, 0)
-    mesh.draw()
-    glPopMatrix()
-    glTranslatef(0.5, 1.5, 0.5)
-    mesh.draw()
+    # mesh.draw()
+    for z in range(10):
+        for x in range(10):
+            cube.draw(pygame.Vector3(x, 0.5, z))
 
 
 done = False
