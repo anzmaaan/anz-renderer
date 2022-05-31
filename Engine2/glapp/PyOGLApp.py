@@ -1,22 +1,22 @@
 from pygame.locals import *
-from Camera import *
+from .Camera import *
 import os
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
 
 class PyOGLApp:
-    def __init__(self, screen_posX, screen_poxY, screen_width, screen_height):
-        os.environ['SDL_VIDEO_WINDOW_POS'] = f"{screen_posX},{screen_poxY}"
+    def __init__(self, screen_posX, screen_posY, screen_width, screen_height):
+        os.environ['SDL_VIDEO_WINDOW_POS'] = f"{screen_posX},{screen_posY}"
         self.screen_width = screen_width
         self.screen_height = screen_height
         pygame.init()
-        pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
-        pygame.display.set_caption('Gilfoyle-Carmack Engine - OpenGL in Python')
+        self.screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
+        pygame.display.set_caption('Gilfoyle-Carmack Engine2 - OpenGL in Python')
         self.camera = Camera()
 
     def draw_world_axes(self):
-        glLineWidth(4)
+        glLineWidth(1)
         glBegin(GL_LINES)
         glColor(1, 0, 0)
         glVertex3d(-1000, 0, 0)
