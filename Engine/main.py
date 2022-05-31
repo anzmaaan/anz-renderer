@@ -20,7 +20,8 @@ drawing_color = (1, 1, 1, 1)
 
 screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
 pygame.display.set_caption('Gilfoyle-Carmack Engine - OpenGL in Python')
-cube = Cube(GL_LINE_LOOP)
+cube = Cube(GL_LINE_LOOP, position=pygame.Vector3(2, 0, 0), rotation=Rotation(45, pygame.Vector3(0, 1, 0)),
+            scale=pygame.Vector3(0.1, 0.1, 0.1))
 mesh = LoadMesh('teapot.obj', GL_LINE_LOOP)
 camera = Camera()
 
@@ -85,10 +86,9 @@ def display():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     camera_init()
     draw_world_axes()
-    # mesh.draw()
-    for z in range(10):
-        for x in range(10):
-            cube.draw(pygame.Vector3(x, 0.5, z))
+    glRotatef(45, 0, 0, 1)
+    cube.draw()
+    # cube.draw()
 
 
 done = False
