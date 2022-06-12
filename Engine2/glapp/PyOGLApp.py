@@ -13,7 +13,7 @@ class PyOGLApp:
         pygame.init()
         pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
         pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLESAMPLES, 4)
-        #pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
+        # pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
         self.screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
         pygame.display.set_caption('Gilfoyle-Carmack Engine2 - OpenGL in Python')
         self.camera = Camera()

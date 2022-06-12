@@ -7,7 +7,7 @@ class Uniform:
         self.data = data
         self.variable_id = None
 
-    def find_variable(self, program_id , variable_name):
+    def find_variable(self, program_id, variable_name):
         self.variable_id = glGetUniformLocation(program_id, variable_name)
 
     def load(self):

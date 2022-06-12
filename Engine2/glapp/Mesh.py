@@ -6,7 +6,7 @@ import numpy as np
 
 
 class Mesh:
-    def __init__(self, program_id, vertices, vertex_colors, draw_type, translation = pygame.Vector3(0, 0, 0)):
+    def __init__(self, program_id, vertices, vertex_colors, draw_type, translation=pygame.Vector3(0, 0, 0)):
         self.vertices = vertices
         self.draw_type = draw_type
         self.vao_ref = glGenVertexArrays(1)
