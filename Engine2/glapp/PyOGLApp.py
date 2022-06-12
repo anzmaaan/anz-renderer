@@ -11,9 +11,13 @@ class PyOGLApp:
         self.screen_width = screen_width
         self.screen_height = screen_height
         pygame.init()
+        pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLEBUFFERS, 1)
+        pygame.display.gl_set_attribute(pygame.GL_MULTISAMPLESAMPLES, 4)
+        #pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
         self.screen = pygame.display.set_mode((screen_width, screen_height), DOUBLEBUF | OPENGL)
         pygame.display.set_caption('Gilfoyle-Carmack Engine2 - OpenGL in Python')
         self.camera = Camera()
+        self.program_id = 0
 
     def draw_world_axes(self):
         glLineWidth(1)
@@ -65,6 +69,7 @@ class PyOGLApp:
         self.initialise()
         pygame.event.set_grab(True)
         pygame.mouse.set_visible(False)
+
         while not done:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -79,5 +84,4 @@ class PyOGLApp:
             self.camera_init()
             self.display()
             pygame.display.flip()
-            # pygame.time.wait(100)
         pygame.quit()
