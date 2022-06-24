@@ -3,6 +3,7 @@ import pygame
 from OpenGL.GLU import *
 from math import *
 from .Transformations import *
+from .Uniform import *
 
 
 class Camera:
@@ -11,8 +12,13 @@ class Camera:
         self.last_mouse = pygame.math.Vector2(0, 0)
         self.mouse_sensitivityX = 0.1
         self.mouse_sensitivityY = 0.1
-        self.key_sensitivity = 0.008
+        self.key_sensitivity = 0.002
         self.projection_mat = self.perspective_mat(60, w/h, 0.01, 10000)
+        self.projection = Uniform("mat4", self.projection_mat)
+        self.projection.find_variable(program_id, "projection_mat")
+        self.program_id = program_id
+        self.screen_width = w
+        self.screen_height = h
 
     def perspective_mat(self, angle_of_view, aspect_ratio, near_plane, far_plane):
         a = radians(angle_of_view)
@@ -26,15 +32,19 @@ class Camera:
                         [0, 0, -1, 0]], np.float32)
 
     def rotate(self, yaw, pitch):
-        self.transformation = rotate(self.transformation, yaw, "Y")
-        self.transformation = rotate(self.transformation, pitch, "X")
+        forward = pygame.Vector3(self.transformation[0, 2], self.transformation[1, 2], self.transformation[2, 2])
+        up = pygame.Vector3(0, 1, 0)
+        angle = forward.angle_to(up)
+        self.transformation = rotate(self.transformation, yaw, "Y", False)
+        if angle < 170.0 and pitch > 0 or angle > 30.0 and pitch < 0:
+            self.transformation = rotate(self.transformation, pitch, "X", True)
 
-    def update(self, w, h):
+    def update(self):
         if pygame.mouse.get_visible():
             return
         mouse_pos = pygame.mouse.get_pos()
         mouse_change = self.last_mouse - pygame.math.Vector2(mouse_pos)
-        pygame.mouse.set_pos(w / 2, h / 2)
+        pygame.mouse.set_pos(self.screen_width / 2, self.screen_height / 2)
         self.last_mouse = pygame.mouse.get_pos()
         self.rotate(mouse_change.x * self.mouse_sensitivityX, mouse_change.y * self.mouse_sensitivityY)
 
@@ -48,7 +58,8 @@ class Camera:
         if keys[pygame.K_LEFT]:
             self.transformation = translate(self.transformation, -self.key_sensitivity, 0, 0)
 
-        self.look = self.eye + self.forward
-        gluLookAt(self.eye.x, self.eye.y, self.eye.z,
-                  self.look.x, self.look.y, self.look.z,
-                  self.up.x, self.up.y, self.up.z)
+        self.projection.load()
+        lookat_mat = self.transformation
+        lookat = Uniform("mat4", lookat_mat)
+        lookat.find_variable(self.program_id, "view_mat")
+        lookat.load()
