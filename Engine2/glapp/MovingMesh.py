@@ -21,6 +21,7 @@ class MovingMesh:
         position.create_variable(program_id, "position")
         colors = GraphicsData("vec3", vertex_colors)
         colors.create_variable(program_id, "vertex_color")
+        self.program_id = program_id
         self.transformation_mat = identity_mat()
         self.transformation_mat = rotateA(self.transformation_mat, rotation.angle, rotation.axis)
         self.transformation_mat = translate(self.transformation_mat, translation.x, translation.y, translation.z)
